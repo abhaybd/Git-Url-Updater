@@ -1,16 +1,20 @@
 package com.coolioasjulio.urlupdater;
 
+import com.alee.laf.WebLookAndFeel;
+import com.alee.skin.dark.WebDarkSkin;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
+        WebLookAndFeel.install(WebDarkSkin.class);
         Main main = new Main();
-        main.start();
+        SwingUtilities.invokeLater(main::start);
     }
 
     private GUI gui;
@@ -19,13 +23,17 @@ public class Main {
     private volatile File[] repos;
 
     public Main() {
-        gui = new GUI();
-
         rootDir = new File(System.getProperty("user.home"));
-        SwingUtilities.invokeLater(this::initUI);
+        try {
+            SwingUtilities.invokeAndWait(this::initUI);
+        } catch (InterruptedException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initUI() {
+        gui = new GUI();
+
         gui.rootDirLabel.setText(rootDir.getAbsolutePath());
 
         gui.chooseRootDirButton.addActionListener(this::onChooseRootDir);

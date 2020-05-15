@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.eclipse.jgit:org.eclipse.jgit:5.7.0.202003110725-r" level="project" />
+    <orderEntry type="library" name="com.weblookandfeel:weblaf-ui:1.2.12" level="project" />
   </component>
 </module>
