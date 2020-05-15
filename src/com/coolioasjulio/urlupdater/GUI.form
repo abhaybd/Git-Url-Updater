@@ -32,6 +32,7 @@
         </constraints>
         <properties>
           <text value="Previous Username"/>
+          <toolTipText value="Your username before you changed it"/>
         </properties>
       </component>
       <component id="51d9f" class="javax.swing.JLabel">
@@ -40,6 +41,7 @@
         </constraints>
         <properties>
           <text value="New Username"/>
+          <toolTipText value="Your username after you changed it"/>
         </properties>
       </component>
       <component id="f62" class="javax.swing.JButton" binding="chooseRootDirButton" default-binding="true">
@@ -48,6 +50,7 @@
         </constraints>
         <properties>
           <text value="Choose file root"/>
+          <toolTipText value="Select a new root to search for repositories under"/>
         </properties>
       </component>
       <component id="2704b" class="javax.swing.JLabel" binding="rootDirLabel">
@@ -56,6 +59,7 @@
         </constraints>
         <properties>
           <text value="Currently Selected Root:"/>
+          <toolTipText value="The program will search for all git repositories in this folder and its subfolders, recursively"/>
         </properties>
       </component>
       <component id="9dfe4" class="javax.swing.JLabel" binding="numReposLabel">
@@ -76,6 +80,8 @@
           <component id="6b34e" class="javax.swing.JTextArea" binding="foundReposArea">
             <constraints/>
             <properties>
+              <columns value="0"/>
+              <editable value="false"/>
               <rows value="3"/>
             </properties>
           </component>
@@ -87,6 +93,7 @@
         </constraints>
         <properties>
           <text value="Update repository urls"/>
+          <toolTipText value="Update any urls referencing the old username to point to the new username"/>
         </properties>
       </component>
       <component id="78584" class="javax.swing.JButton" binding="findRepositoriesButton" default-binding="true">
@@ -95,6 +102,7 @@
         </constraints>
         <properties>
           <text value="Find repositories"/>
+          <toolTipText value="Find all repositories in the selected root and its subfolders"/>
         </properties>
       </component>
     </children>

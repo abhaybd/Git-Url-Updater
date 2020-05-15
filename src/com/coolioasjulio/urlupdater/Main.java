@@ -17,6 +17,7 @@ public class Main {
     private File rootDir;
     private volatile boolean allowFind = true; // flag to disable find operation without disabling button
     private volatile File[] repos;
+
     public Main() {
         gui = new GUI();
 
@@ -26,7 +27,6 @@ public class Main {
 
     private void initUI() {
         gui.rootDirLabel.setText(rootDir.getAbsolutePath());
-        gui.foundReposArea.setEditable(false);
 
         gui.chooseRootDirButton.addActionListener(this::onChooseRootDir);
         gui.updateRepositoryUrlsButton.addActionListener(this::onUpdateRepositoryUrls);
@@ -36,6 +36,8 @@ public class Main {
 
         Dimension d = gui.root.getPreferredSize();
         gui.root.setPreferredSize(new Dimension(d.width * 2, d.height));
+
+        ToolTipManager.sharedInstance().setInitialDelay(1500);
     }
 
     private void onFindRepos(ActionEvent e) {
@@ -76,11 +78,30 @@ public class Main {
     }
 
     private void onUpdateRepositoryUrls(ActionEvent e) {
-
+        String prevUsername = gui.prevUsernameField.getText().trim();
+        String newUsername = gui.newUsernameField.getText().trim();
+        File[] repos = this.repos;
+        if (prevUsername.length() == 0) {
+            showError("Invalid previous username! Please enter your previous GitHub username!");
+        } else if (newUsername.length() == 0) {
+            showError("Invalid new username! Please enter your new GitHub username!");
+        } else if (repos == null || repos.length == 0) {
+            showError("Please find some repositories before updating urls!");
+        } else {
+            gui.setUpdateButtonEnabled(false);
+            CompletableFuture<Integer> future =
+                    RepoUtils.updateRepositoryUrlsAsync(repos, prevUsername, newUsername);
+            future.thenAccept(i -> {
+                        gui.setUpdateButtonEnabled(true);
+                        JOptionPane.showMessageDialog(gui.root,
+                                String.format("Successfully updated the urls of %d repositories.", i),
+                                "Success", JOptionPane.INFORMATION_MESSAGE);
+                    });
+        }
     }
 
     private void showError(String message) {
-        JOptionPane.showMessageDialog(gui.root, "Error!", message, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(gui.root, message, "Error!", JOptionPane.ERROR_MESSAGE);
     }
 
     public void start() {

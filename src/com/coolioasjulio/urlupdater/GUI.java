@@ -15,7 +15,6 @@ public class GUI {
 
     public void setRootDir(String path) {
         SwingUtilities.invokeLater(() ->  rootDirLabel.setText(String.format("Currently selected root: %s", path)));
-
     }
 
     public void setNumFoundRepos(int num) {

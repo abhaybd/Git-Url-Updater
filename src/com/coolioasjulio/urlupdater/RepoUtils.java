@@ -21,7 +21,14 @@ public class RepoUtils {
     private static final String GIT_NAME = ".git";
 
     public static CompletableFuture<Integer> updateRepositoryUrlsAsync(File[] repoRoots, String prevUsername, String newUsername) {
-        return null; // TODO: implement
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        Thread t = new Thread(() -> {
+            int num = updateRepositoryUrls(repoRoots, prevUsername, newUsername);
+            future.complete(num);
+        });
+        t.setDaemon(true);
+        t.start();
+        return future;
     }
 
     public static int updateRepositoryUrls(File[] repoRoots, String prevUsername, String newUsername) {
